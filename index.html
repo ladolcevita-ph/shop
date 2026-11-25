@@ -41,12 +41,38 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
 .catalog-filters { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:0 0 16px; }
 .catalog-filters label { display:flex; flex-direction:column; gap:6px; font-size:11px; font-weight:600; }
 .catalog-filters select { max-width:none; font-size:12px; }
-.catalog { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-.product { border:1px solid var(--line); padding:9px; min-width:0; background:#fff; }
-.product-photo { width:100%; aspect-ratio:1/1; background:#f8f8f7; display:block; object-fit:contain; }
-.product-name { font-size:12px; font-weight:600; margin:9px 0 2px; }
-.product-price { font-size:12px; color:var(--muted); margin:0 0 9px; }
-.product .btn { width:100%; padding:9px 5px; font-size:10px; }
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 8px;
+}
+.product {
+  border: 1px solid var(--line);
+  padding: 5px;
+  min-width: 0;
+  background: #fff;
+}
+.product-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f8f8f7;
+  display: block;
+  object-fit: contain;
+}
+.product-name {
+  font-size: 10px;
+  margin: 5px 0 2px;
+}
+
+.product-price {
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+.product .btn {
+  padding: 6px 2px;
+  font-size: 9px;
+}
 .selected-list { display:flex; flex-direction:column; gap:8px; }
 .selected-row { display:flex; align-items:center; gap:9px; padding:8px 0; border-bottom:1px solid var(--line); }
 .selected-row img { width:48px; height:48px; object-fit:contain; background:#f8f8f7; border:1px solid var(--line); }
@@ -59,8 +85,9 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
 .full { width:100%; margin-top:17px; padding:14px; }
 .cart-status { font-size:12px; color:#47704c; margin-top:10px; min-height:18px; }
 .foot { text-align:center; color:var(--muted); font-size:10px; letter-spacing:2px; padding:20px; }
-@media(min-width:620px) { .catalog { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; } }
-@media(min-width:900px) { .catalog { grid-template-columns:repeat(4,minmax(0,1fr)); } .panel { padding:24px; } }
+@media(min-width:900px) {
+  .panel { padding:24px; }
+}
   /* Keep the bracelet preview visible while browsing charms */
 .builder-sticky-area {
   position: relative;
