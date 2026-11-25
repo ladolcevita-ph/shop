@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Dolce Vita | Charm Bracelet Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#f8f7f3; --paper:#fff; --ink:#292824; --muted:#817f78;
+  --line:#e8e5de; --gold:#b49a6a;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--cream); color:var(--ink); font-family:'Poppins',sans-serif; }
+header { text-align:center; padding:28px 16px 22px; background:var(--paper); border-bottom:1px solid var(--line); }
+.brand { margin:0; font-size:clamp(23px,4vw,34px); line-height:1.2; font-weight:800; letter-spacing:3px; }
+.tagline { margin:8px 0 0; font-size:10px; letter-spacing:3px; color:var(--muted); font-weight:500; }
+.page { max-width:1120px; margin:auto; padding:26px 18px 55px; }
+.intro { text-align:center; margin:6px auto 28px; }
+h2,h3 { font-weight:700; }
+.intro h2 { font-size:clamp(23px,4vw,32px); margin:0 0 8px; font-weight:800; letter-spacing:-.8px; }
+.intro p,.muted { color:var(--muted); font-size:13px; }
+.panel { background:var(--paper); border:1px solid var(--line); padding:20px; margin-bottom:18px; border-radius:3px; }
+.section-heading { display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+.section-number { color:var(--gold); font-size:11px; font-weight:700; letter-spacing:1px; }
+.section-title { margin:0; font-size:17px; font-weight:700; }
+.muted { margin:4px 0 15px; }
+select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px; background:white; color:var(--ink); font:inherit; font-size:13px; }
+.preview-wrap { background:#f8f7f3; border:1px solid var(--line); padding:25px 12px 15px; overflow-x:auto; }
+.preview { min-height:102px; min-width:max-content; display:flex; justify-content:center; align-items:center; padding:4px 12px; }
+.preview-link { width:68px; height:68px; flex:0 0 68px; border:1px solid #d6d2c9; border-radius:5px; background:white; overflow:hidden; box-shadow:0 2px 7px #0000000c; }
+.preview-link img { width:100%; height:100%; object-fit:contain; display:block; }
+.join { width:9px; height:12px; flex:0 0 9px; background:linear-gradient(90deg,#aaa,#f7f7f7,#999); border-radius:2px; }
+.preview-note { text-align:center; color:var(--muted); font-size:11px; margin:12px 0 0; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.btn { border:1px solid var(--ink); background:var(--ink); color:white; padding:11px 15px; font:600 11px 'Poppins',sans-serif; letter-spacing:.6px; cursor:pointer; }
+.btn.secondary { color:var(--ink); background:white; border-color:var(--line); }
+.btn:disabled { opacity:.4; cursor:not-allowed; }
+.catalog-filters { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:0 0 16px; }
+.catalog-filters label { display:flex; flex-direction:column; gap:6px; font-size:11px; font-weight:600; }
+.catalog-filters select { max-width:none; font-size:12px; }
+.catalog { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.product { border:1px solid var(--line); padding:9px; min-width:0; background:#fff; }
+.product-photo { width:100%; aspect-ratio:1/1; background:#f8f8f7; display:block; object-fit:contain; }
+.product-name { font-size:12px; font-weight:600; margin:9px 0 2px; }
+.product-price { font-size:12px; color:var(--muted); margin:0 0 9px; }
+.product .btn { width:100%; padding:9px 5px; font-size:10px; }
+.selected-list { display:flex; flex-direction:column; gap:8px; }
+.selected-row { display:flex; align-items:center; gap:9px; padding:8px 0; border-bottom:1px solid var(--line); }
+.selected-row img { width:48px; height:48px; object-fit:contain; background:#f8f8f7; border:1px solid var(--line); }
+.selected-name { flex:1; font-size:12px; font-weight:500; }
+.selected-actions { display:flex; gap:4px; }
+.icon-btn { border:1px solid var(--line); background:white; padding:5px 8px; cursor:pointer; color:var(--ink); }
+.total-line { display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); margin-top:17px; padding-top:16px; }
+.total-label { font-size:11px; color:var(--muted); letter-spacing:1px; }
+.total-price { font-size:24px; font-weight:800; }
+.full { width:100%; margin-top:17px; padding:14px; }
+.cart-status { font-size:12px; color:#47704c; margin-top:10px; min-height:18px; }
+.foot { text-align:center; color:var(--muted); font-size:10px; letter-spacing:2px; padding:20px; }
+@media(min-width:620px) { .catalog { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; } }
+@media(min-width:900px) { .catalog { grid-template-columns:repeat(4,minmax(0,1fr)); } .panel { padding:24px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1 class="brand">LA DOLCE VITA</h1>
+  <p class="tagline">THE RE·CREATION</p>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <h2>Build Your Charm Bracelet</h2>
+    <p>Choose your links. Collect your favorites. Create your sweet life.</p>
+  </div>
+
+  <section class="panel">
+    <div class="section-heading"><span class="section-number">01</span><h3 class="section-title">Choose your bracelet style</h3></div>
+    <p class="muted">Go for a clean classic or create a design of your own.</p>
+    <select id="style" onchange="handleStyleChange()">
+      <option value="plain">Plain Bracelet — a complete bracelet with no charms or designs</option>
+      <option value="custom">I'll Make My Own — customize your bracelet with charms</option>
+    </select>
+    <div id="base-choice">
+      <p class="muted" style="margin-top:14px;margin-bottom:8px">Choose your finish.</p>
+      <select id="base" onchange="renderTotal()">
+        <option value="300">Silver — ₱300</option>
+        <option value="400">Gold — ₱400</option>
+      </select>
+    </div>
+    <p class="muted" id="style-note" style="margin-top:10px">A complete 18-link bracelet (18cm), with no charms or designs.</p>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading"><span class="section-number">02</span><h3 class="section-title">Your bracelet preview</h3></div>
+    <p class="muted">Your chosen charms will appear here in the order you add them.</p>
+    <div class="preview-wrap"><div class="preview" id="preview"></div></div>
+    <p class="preview-note" id="count">0 of 18 charms selected</p>
+    <div class="toolbar"><button class="btn secondary" onclick="clearDesign()">CLEAR DESIGN</button></div>
+  </section>
+
+  <section class="panel" id="charms-panel">
+    <div class="section-heading"><span class="section-number">03</span><h3 class="section-title">Choose your charms</h3></div>
+    <p class="muted">Browse by style or price, then tap “Add charm” to add a link to your bracelet.</p>
+    <div class="catalog-filters">
+      <label>Style
+        <select id="filter-style" onchange="renderCatalog()"><option value="all">All styles</option></select>
+      </label>
+      <label>Price
+        <select id="filter-price" onchange="renderCatalog()"><option value="all">All prices</option></select>
+      </label>
+    </div>
+    <div class="catalog" id="catalog"></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading"><span class="section-number">04</span><h3 class="section-title">Your selected charms</h3></div>
+    <div class="selected-list" id="selected-list"><p class="muted">Your selected charms will appear here.</p></div>
+    <div class="total-line"><div><div class="total-label">BRACELET TOTAL</div><div class="muted" id="total-description" style="margin:3px 0 0">Complete bracelet</div></div><div class="total-price" id="total">₱300</div></div>
+    <button class="btn full" onclick="addDesignToBag()">ADD MY DESIGN TO BAG</button>
+    <div class="cart-status" id="status" aria-live="polite"></div>
+  </section>
+</main>
+<footer class="foot">LA DOLCE VITA · THE SWEET LIFE</footer>
+
+<script>
+// Update these prices to match your actual selling prices.
+const MAX_CHARMS = 18;
+// Add each charm here. Use a matching image path, a style/category, and its price in PHP.
+// Existing charms are grouped into Cars and Football based on their names.
+const charms = [
+  {id:1, name:"BMW Emblem — Silver", style:"Cars", image:"images/bmw-silver.jpg", price:120},
+  {id:2, name:"BMW Emblem — Gold", style:"Cars", image:"images/bmw-gold.jpg", price:120},
+  {id:3, name:"Ferrari Shield — Silver", style:"Cars", image:"images/ferrari-silver.jpg", price:120},
+  {id:4, name:"Ferrari Shield — Gold", style:"Cars", image:"images/ferrari-gold.jpg", price:120},
+  {id:5, name:"Porsche Crest — Silver", style:"Cars", image:"images/porsche-silver.jpg", price:120},
+  {id:6, name:"Mercedes Star — Gold", style:"Cars", image:"images/mercedes-gold.jpg", price:120},
+  {id:7, name:"Porsche Crest — Gold", style:"Cars", image:"images/porsche-gold.jpg", price:120},
+  {id:8, name:"Ferrari Shield — Silver (Alt.)", style:"Cars", image:"images/ferrari-silver-2.jpg", price:120},
+  {id:9, name:"Manchester City", style:"Football", image:"images/manchester-city.jpg", price:120},
+  {id:10, name:"Chelsea", style:"Football", image:"images/chelsea.jpg", price:120},
+  {id:11, name:"Arsenal", style:"Football", image:"images/arsenal.jpg", price:120},
+  {id:12, name:"Liverpool", style:"Football", image:"images/liverpool.jpg", price:120},
+  {id:13, name:"Mercedes Star — Silver", style:"Cars", image:"images/mercedes-silver.jpg", price:120},
+  {id:14, name:"FC Barcelona", style:"Football", image:"images/barcelona.jpg", price:120},
+  {id:15, name:"Manchester United", style:"Football", image:"images/manchester-united.jpg", price:120}
+];
+
+let selected = [];
+
+function setupCharmFilters() {
+  const styleSelect = document.getElementById("filter-style");
+  const priceSelect = document.getElementById("filter-price");
+  const styles = [...new Set(charms.map(charm => charm.style))].sort();
+  const prices = [...new Set(charms.map(charm => charm.price))].sort((a, b) => a - b);
+  styleSelect.innerHTML = '<option value="all">All styles</option>' + styles.map(style =>
+    `<option value="${style}">${style}</option>`).join("");
+  priceSelect.innerHTML = '<option value="all">All prices</option>' + prices.map(price =>
+    `<option value="${price}">₱${price.toLocaleString("en-PH")}</option>`).join("");
+}
+
+function renderCatalog() {
+  const selectedStyle = document.getElementById("filter-style").value;
+  const selectedPrice = document.getElementById("filter-price").value;
+  const filteredCharms = charms.filter(charm =>
+    (selectedStyle === "all" || charm.style === selectedStyle) &&
+    (selectedPrice === "all" || charm.price === Number(selectedPrice))
+  );
+  document.getElementById("catalog").innerHTML = filteredCharms.length ? filteredCharms.map(charm => `
+    <article class="product">
+      <img class="product-photo" src="${charm.image}" alt="${charm.name}" loading="lazy">
+      <div class="product-name">${charm.name}</div>
+      <p class="product-price">${charm.style} · ₱${charm.price.toLocaleString("en-PH")}</p>
+      <button class="btn" onclick="addCharm(${charm.id})">+ ADD CHARM</button>
+    </article>
+  `).join("") : '<p class="muted">No charms match these filters.</p>';
+}
+
+function addCharm(id) {
+  if (selected.length >= MAX_CHARMS) {
+    alert(`Your bracelet can hold up to ${MAX_CHARMS} charms.`);
+    return;
+  }
+  const charm = charms.find(item => item.id === id);
+  selected.push(charm);
+  renderAll();
+}
+
+function removeCharm(index) {
+  selected.splice(index, 1);
+  renderAll();
+}
+
+function moveCharm(index, direction) {
+  const next = index + direction;
+  if (next < 0 || next >= selected.length) return;
+  [selected[index], selected[next]] = [selected[next], selected[index]];
+  renderAll();
+}
+
+function renderPreview() {
+  const preview = document.getElementById("preview");
+  preview.innerHTML = "";
+  if (!selected.length) {
+    preview.innerHTML = '<div class="preview-link" style="display:grid;place-items:center;color:#aaa;font-size:24px">+</div>';
+  } else {
+    selected.forEach((charm, index) => {
+      if (index) {
+        const join = document.createElement("span");
+        join.className = "join";
+        preview.appendChild(join);
+      }
+      const frame = document.createElement("div");
+      frame.className = "preview-link";
+      const img = document.createElement("img");
+      img.src = charm.image;
+      img.alt = charm.name;
+      frame.appendChild(img);
+      preview.appendChild(frame);
+    });
+  }
+  document.getElementById("count").textContent = `${selected.length} of ${MAX_CHARMS} charms selected`;
+}
+
+function renderSelected() {
+  const list = document.getElementById("selected-list");
+  if (!selected.length) {
+    list.innerHTML = '<p class="muted">Your selected charms will appear here.</p>';
+    return;
+  }
+  list.innerHTML = selected.map((charm, index) => `
+    <div class="selected-row">
+      <img src="${charm.image}" alt="${charm.name}">
+      <span class="selected-name">${index + 1}. ${charm.name}</span>
+      <span style="font-size:11px">₱${charm.price}</span>
+      <div class="selected-actions">
+        <button class="icon-btn" onclick="moveCharm(${index},-1)" aria-label="Move charm left">←</button>
+        <button class="icon-btn" onclick="moveCharm(${index},1)" aria-label="Move charm right">→</button>
+        <button class="icon-btn" onclick="removeCharm(${index})" aria-label="Remove charm">×</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function handleStyleChange() {
+  const isCustom = document.getElementById("style").value === "custom";
+  document.getElementById("charms-panel").style.display = isCustom ? "" : "none";
+  document.getElementById("style-note").textContent = isCustom
+    ? "No bracelet base price is added for this option. Select your charms to build your design."
+    : "A complete 18-link bracelet (18cm), with no charms or designs.";
+  document.getElementById("base-choice").style.display = isCustom ? "none" : "";
+  if (!isCustom) selected = [];
+  renderAll();
+}
+
+function renderTotal() {
+  const isCustom = document.getElementById("style").value === "custom";
+  const basePrice = isCustom ? 0 : Number(document.getElementById("base").value);
+  const charmTotal = isCustom ? selected.reduce((sum, charm) => sum + charm.price, 0) : 0;
+  document.getElementById("total").textContent =
+    "₱" + (basePrice + charmTotal).toLocaleString("en-PH");
+  document.getElementById("total-description").textContent =
+    isCustom ? "Selected charms only" : "Complete bracelet, no designs";
+}
+
+function renderAll() {
+  renderPreview();
+  renderSelected();
+  renderTotal();
+}
+
+function clearDesign() {
+  if (!selected.length) return;
+  if (confirm("Clear your bracelet design?")) {
+    selected = [];
+    renderAll();
+  }
+}
+
+function addDesignToBag() {
+  const isCustom = document.getElementById("style").value === "custom";
+  if (isCustom && !selected.length) {
+    alert("Please add at least one charm to your custom bracelet.");
+    return;
+  }
+  const baseSelect = document.getElementById("base");
+  const basePrice = isCustom ? 0 : Number(baseSelect.value);
+  const baseName = isCustom ? "I'll Make My Own (no base price)" : baseSelect.selectedOptions[0].text;
+  const styleName = isCustom ? "I'll Make My Own" : "Plain Bracelet";
+  const design = {
+    id: Date.now(),
+    style: styleName,
+    base: baseName,
+    basePrice,
+    charms: selected.map(charm => ({
+      name: charm.name, image: charm.image, price: charm.price
+    })),
+    total: isCustom ? selected.reduce((sum, charm) => sum + charm.price, 0) : basePrice
+  };
+  const bag = JSON.parse(localStorage.getItem("ldv-bag") || "[]");
+  bag.push(design);
+  localStorage.setItem("ldv-bag", JSON.stringify(bag));
+  document.getElementById("status").textContent =
+    "Your bracelet has been added to your bag on this device.";
+  selected = [];
+  renderAll();
+}
+
+setupCharmFilters();
+renderCatalog();
+handleStyleChange();
+renderAll();
+</script>
+</body>
+</html>
