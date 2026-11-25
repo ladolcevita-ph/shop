@@ -152,6 +152,14 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
     flex-basis: 48px;
   }
 }
+.checkout-instructions {
+  margin-top: 17px;
+  padding: 14px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  text-align: center;
+  line-height: 1.7;
+}
 </style>
 </head>
 <body>
@@ -208,10 +216,14 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   </div>
 
     <section class="panel">
-    <div class="section-heading"><span class="section-number">04</span><h3 class="section-title">Your selected charms</h3></div>
+    <div class="section-heading"><span class="section-number">04</span><h3 class="section-title">Checkout Basket</h3></div>
     <div class="selected-list" id="selected-list"><p class="muted">Your selected charms will appear here.</p></div>
     <div class="total-line"><div><div class="total-label">BRACELET TOTAL</div><div class="muted" id="total-description" style="margin:3px 0 0">Complete bracelet</div></div><div class="total-price" id="total">₱300</div></div>
-    <button class="btn full" onclick="addDesignToBag()">ADD MY DESIGN TO BAG</button>
+   <p class="muted checkout-instructions">
+  Please take a screenshot of your custom design and your Checkout Basket
+  and send via Instagram DM
+  <strong>@shop.ladolcevita</strong>
+</p>
     <div class="cart-status" id="status" aria-live="polite"></div>
   </section>
 </main>
