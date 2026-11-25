@@ -46,6 +46,12 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   grid-template-columns: repeat(10, minmax(0, 1fr));
   gap: 8px;
 }
+
+@media (max-width: 600px) {
+  .catalog {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
 .product {
   border: 1px solid var(--line);
   padding: 5px;
