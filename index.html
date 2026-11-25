@@ -58,10 +58,11 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   background: #f8f8f7;
   display: block;
   object-fit: contain;
+  cursor: pointer;
 }
-.product-name {
-  font-size: 10px;
-  margin: 5px 0 2px;
+.product-name,
+.product .btn {
+  display: none;
 }
 
 .product-price {
@@ -276,18 +277,27 @@ function setupCharmFilters() {
 function renderCatalog() {
   const selectedStyle = document.getElementById("filter-style").value;
   const selectedPrice = document.getElementById("filter-price").value;
+
   const filteredCharms = charms.filter(charm =>
     (selectedStyle === "all" || charm.style === selectedStyle) &&
     (selectedPrice === "all" || charm.price === Number(selectedPrice))
   );
-  document.getElementById("catalog").innerHTML = filteredCharms.length ? filteredCharms.map(charm => `
-    <article class="product">
-      <img class="product-photo" src="${charm.image}" alt="${charm.name}" loading="lazy">
-      <div class="product-name">${charm.name}</div>
-      <p class="product-price">${charm.style} · ₱${charm.price.toLocaleString("en-PH")}</p>
-      <button class="btn" onclick="addCharm(${charm.id})">+ ADD CHARM</button>
-    </article>
-  `).join("") : '<p class="muted">No charms match these filters.</p>';
+
+  document.getElementById("catalog").innerHTML = filteredCharms.length
+    ? filteredCharms.map(charm => `
+      <article class="product">
+        <img
+          class="product-photo"
+          src="${charm.image}"
+          alt="${charm.name}"
+          title="Add ${charm.name}"
+          loading="lazy"
+          onclick="addCharm(${charm.id})"
+        >
+        <p class="product-price">₱${charm.price.toLocaleString("en-PH")}</p>
+      </article>
+    `).join("")
+    : '<p class="muted">No charms match these filters.</p>';
 }
 
 function addCharm(id) {
