@@ -64,6 +64,7 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   /* Keep the bracelet preview visible while browsing charms */
 .builder-sticky-area {
   position: relative;
+  overflow: visible;
 }
 .preview-link {
   position: relative;
@@ -91,11 +92,12 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   background: #292824;
   color: white;
 }
-  #preview-panel {
+ #preview-panel {
+  position: -webkit-sticky;
   position: sticky;
   top: 12px;
-  align-self: start;
   z-index: 20;
+  align-self: start;
   background: var(--paper);
   box-shadow: 0 4px 10px rgba(0,0,0,.04);
 }
