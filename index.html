@@ -61,6 +61,60 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
 .foot { text-align:center; color:var(--muted); font-size:10px; letter-spacing:2px; padding:20px; }
 @media(min-width:620px) { .catalog { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; } }
 @media(min-width:900px) { .catalog { grid-template-columns:repeat(4,minmax(0,1fr)); } .panel { padding:24px; } }
+  /* Keep the bracelet preview visible while browsing charms */
+.builder-sticky-area {
+  position: relative;
+}
+.preview-link {
+  position: relative;
+}
+
+.preview-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #292824;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+}
+
+.preview-remove:hover {
+  background: #292824;
+  color: white;
+}
+  #preview-panel {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Make the sticky preview fit on smaller screens */
+@media (max-width: 600px) {
+  #preview-panel {
+    padding: 12px;
+  }
+
+  #preview-panel .preview-wrap {
+    padding: 12px 8px;
+  }
+
+  #preview-panel .preview-link {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+}
 </style>
 </head>
 <body>
@@ -114,7 +168,10 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
     <div class="catalog" id="catalog"></div>
   </section>
 
-  <section class="panel">
+  </div>
+
+  <div class="builder-sticky-area">
+    <section class="panel" id="preview-panel">
     <div class="section-heading"><span class="section-number">04</span><h3 class="section-title">Your selected charms</h3></div>
     <div class="selected-list" id="selected-list"><p class="muted">Your selected charms will appear here.</p></div>
     <div class="total-line"><div><div class="total-label">BRACELET TOTAL</div><div class="muted" id="total-description" style="margin:3px 0 0">Complete bracelet</div></div><div class="total-price" id="total">₱300</div></div>
@@ -244,6 +301,17 @@ function renderPreview() {
       img.src = charm.image;
       img.alt = charm.name;
       frame.appendChild(img);
+
+      // Add a remove button to this individual link
+      const removeBtn = document.createElement("button");
+      removeBtn.className = "preview-remove";
+      removeBtn.type = "button";
+      removeBtn.textContent = "×";
+      removeBtn.setAttribute("aria-label", `Remove ${charm.name}`);
+      removeBtn.title = `Remove ${charm.name}`;
+      removeBtn.onclick = () => removeCharm(index);
+
+      frame.appendChild(removeBtn);
       preview.appendChild(frame);
     });
   }
