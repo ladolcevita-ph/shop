@@ -89,14 +89,14 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
         <option value="400">Gold — ₱400</option>
       </select>
     </div>
-    <p class="muted" id="style-note" style="margin-top:10px">A complete 18-link bracelet (18cm), with no charms or designs.</p>
+    <p class="muted" id="style-note" style="margin-top:10px">A complete 25-link bracelet (25cm), with no charms or designs.</p>
   </section>
 
   <section class="panel">
     <div class="section-heading"><span class="section-number">02</span><h3 class="section-title">Your bracelet preview</h3></div>
     <p class="muted">Your chosen charms will appear here in the order you add them.</p>
     <div class="preview-wrap"><div class="preview" id="preview"></div></div>
-    <p class="preview-note" id="count">0 of 18 charms selected</p>
+    <p class="preview-note" id="count">0 of 25 charms selected</p>
     <div class="toolbar"><button class="btn secondary" onclick="clearDesign()">CLEAR DESIGN</button></div>
   </section>
 
@@ -126,25 +126,52 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
 
 <script>
 // Update these prices to match your actual selling prices.
-const MAX_CHARMS = 18;
+const MAX_CHARMS = 25;
 // Add each charm here. Use a matching image path, a style/category, and its price in PHP.
 // Existing charms are grouped into Cars and Football based on their names.
 const charms = [
-  {id:1, name:"BMW Emblem — Silver", style:"Cars", image:"images/bmw-silver.jpg", price:120},
-  {id:2, name:"BMW Emblem — Gold", style:"Cars", image:"images/bmw-gold.jpg", price:120},
-  {id:3, name:"Ferrari Shield — Silver", style:"Cars", image:"images/ferrari-silver.jpg", price:120},
-  {id:4, name:"Ferrari Shield — Gold", style:"Cars", image:"images/ferrari-gold.jpg", price:120},
-  {id:5, name:"Porsche Crest — Silver", style:"Cars", image:"images/porsche-silver.jpg", price:120},
-  {id:6, name:"Mercedes Star — Gold", style:"Cars", image:"images/mercedes-gold.jpg", price:120},
-  {id:7, name:"Porsche Crest — Gold", style:"Cars", image:"images/porsche-gold.jpg", price:120},
-  {id:8, name:"Ferrari Shield — Silver (Alt.)", style:"Cars", image:"images/ferrari-silver-2.jpg", price:120},
-  {id:9, name:"Manchester City", style:"Football", image:"images/manchester-city.jpg", price:120},
-  {id:10, name:"Chelsea", style:"Football", image:"images/chelsea.jpg", price:120},
-  {id:11, name:"Arsenal", style:"Football", image:"images/arsenal.jpg", price:120},
-  {id:12, name:"Liverpool", style:"Football", image:"images/liverpool.jpg", price:120},
-  {id:13, name:"Mercedes Star — Silver", style:"Cars", image:"images/mercedes-silver.jpg", price:120},
-  {id:14, name:"FC Barcelona", style:"Football", image:"images/barcelona.jpg", price:120},
-  {id:15, name:"Manchester United", style:"Football", image:"images/manchester-united.jpg", price:120}
+  {id:1, name:"plain silver link", style:"plain", image:"images/00silver.JPG", price:20},
+  {id:2, name:"plain gold link", style:"plain", image:"images/00gold", price:25},
+  {id:3, name:"A to Z letter", style:"Letters", image:"images/AZ(select).JPG", price:65},
+  {id:4, name:"C001", style:"Cars", image:"images/C001.JPG", price:95},
+  {id:5, name:"C002", style:"Cars", image:"images/C002.JPG", price:95},
+  {id:6, name:"C003", style:"Cars", image:"images/C003.JPG", price:95},
+  {id:7, name:"C004", style:"Cars", image:"images/C004.JPG", price:95},
+  {id:8, name:"C005", style:"Cars", image:"images/C005.JPG", price:95},
+  {id:9, name:"C006", style:"Cars", image:"images/C006.JPG", price:95},
+  {id:10, name:"CG01", style:"Cars", image:"images/CG01.JPG", price:95},
+  {id:11, name:"CG02", style:"Cars", image:"images/CG02.JPG", price:95},
+  {id:12, name:"CG03", style:"Cars", image:"images/CG03.JPG", price:95},
+  {id:13, name:"CG04", style:"Cars", image:"images/CG04.JPG", price:95},
+  {id:14, name:"FC001", style:"Football", image:"images/FC001.JPG", price:95},
+  {id:15, name:"FC002", style:"Football", image:"images/FC002.JPG", price:95},
+  {id:16, name:"FC003", style:"Football", image:"images/FC003.JPG", price:95},
+  {id:17, name:"FC004", style:"Football", image:"images/FC004.JPG", price:95},
+  {id:18, name:"FC005", style:"Football", image:"images/FC005.JPG", price:95},
+  {id:19, name:"FC006", style:"Football", image:"images/FC006.JPG", price:95},
+  {id:20, name:"FC007", style:"Football", image:"images/FC007.JPG", price:95},
+  {id:21, name:"FC008", style:"Football", image:"images/FC008.JPG", price:95},
+  {id:22, name:"FC009", style:"Football", image:"images/FC009.JPG", price:95},
+  {id:21, name:"LDV1000", style:"Custom", image:"images/LDV1000.JPG", price:45},
+  {id:22, name:"LDV1001", style:"Custom", image:"images/LDV1001.JPG", price:45},
+  {id:23, name:"LDV1002", style:"Custom", image:"images/LDV1002.JPG", price:45},
+  {id:24, name:"LDV1003", style:"Custom", image:"images/LDV1003.JPG", price:45},
+  {id:25, name:"LDV1004", style:"Custom", image:"images/LDV1004.JPG", price:45},
+  {id:26, name:"LDV1005", style:"Custom", image:"images/LDV1005.JPG", price:45},
+  {id:27, name:"LDV1006", style:"Custom", image:"images/LDV1006.JPG", price:45},
+  {id:28, name:"LDV1007", style:"Custom", image:"images/LDV1007.JPG", price:45},
+  {id:29, name:"LDV1008", style:"Custom", image:"images/LDV1008.JPG", price:45},
+  {id:30, name:"LDV1009", style:"Custom", image:"images/LDV1009.JPG", price:45},
+  {id:31, name:"LDV1010", style:"Custom", image:"images/LDV1010.JPG", price:45},
+  {id:32, name:"LDV1011", style:"Custom", image:"images/LDV1011.JPG", price:45},
+  {id:33, name:"LDV1012", style:"Custom", image:"images/LDV1012.JPG", price:45},
+  {id:34, name:"LDV1013", style:"Custom", image:"images/LDV1013.JPG", price:45},
+  {id:35, name:"LDV1014", style:"Custom", image:"images/LDV1014.JPG", price:45},
+  {id:36, name:"LDV1015", style:"Custom", image:"images/LDV1015.JPG", price:45},
+  {id:37, name:"LDV1016", style:"Custom", image:"images/LDV1016.JPG", price:45},
+  {id:38, name:"LDV1017", style:"Custom", image:"images/LDV1017.JPG", price:45},
+  {id:39, name:"LDV1018", style:"Custom", image:"images/LDV1018.JPG", price:45},
+  {id:40, name:"LDV1019", style:"Custom", image:"images/LDV1019.JPG", price:45},
 ];
 
 let selected = [];
