@@ -93,10 +93,11 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
 }
   #preview-panel {
   position: sticky;
-  top: 0;
+  top: 12px;
+  align-self: start;
   z-index: 20;
   background: var(--paper);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 10px rgba(0,0,0,.04);
 }
 
 /* Make the sticky preview fit on smaller screens */
@@ -146,7 +147,8 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
     <p class="muted" id="style-note" style="margin-top:10px">A complete 25-link bracelet (25cm), with no charms or designs.</p>
   </section>
 
-  <section class="panel">
+  <div class="builder-sticky-area">
+  <section class="panel" id="preview-panel">
     <div class="section-heading"><span class="section-number">02</span><h3 class="section-title">Your bracelet preview</h3></div>
     <p class="muted">Your chosen charms will appear here in the order you add them.</p>
     <div class="preview-wrap"><div class="preview" id="preview"></div></div>
@@ -167,11 +169,9 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
     </div>
     <div class="catalog" id="catalog"></div>
   </section>
-
   </div>
 
-  <div class="builder-sticky-area">
-    <section class="panel" id="preview-panel">
+    <section class="panel">
     <div class="section-heading"><span class="section-number">04</span><h3 class="section-title">Your selected charms</h3></div>
     <div class="selected-list" id="selected-list"><p class="muted">Your selected charms will appear here.</p></div>
     <div class="total-line"><div><div class="total-label">BRACELET TOTAL</div><div class="muted" id="total-description" style="margin:3px 0 0">Complete bracelet</div></div><div class="total-price" id="total">₱300</div></div>
