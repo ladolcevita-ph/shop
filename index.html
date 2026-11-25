@@ -281,6 +281,14 @@ const charms = [
 
 let selected = [];
 
+try {
+  const savedDesign = JSON.parse(localStorage.getItem("ldvSelectedDesign") || "[]");
+  if (Array.isArray(savedDesign)) {
+    selected = savedDesign;
+  }
+} catch (error) {
+  selected = [];
+}
 function setupCharmFilters() {
   const styleSelect = document.getElementById("filter-style");
   const priceSelect = document.getElementById("filter-price");
@@ -417,6 +425,8 @@ function renderTotal() {
 }
 
 function renderAll() {
+  localStorage.setItem("ldvSelectedDesign", JSON.stringify(selected));
+
   renderPreview();
   renderSelected();
   renderTotal();
