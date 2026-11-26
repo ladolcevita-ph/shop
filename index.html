@@ -378,17 +378,31 @@ function reorderCharm(fromIndex, toIndex) {
     return;
   }
 
-  // Remove the dragged charm from its original position
   const [movedCharm] = selected.splice(fromIndex, 1);
-
-  // Insert it into the new position
   selected.splice(toIndex, 0, movedCharm);
 
   draggedCharmIndex = null;
-
-  // Update the preview, basket, and saved design
   renderAll();
 }
+
+// This listener must be outside reorderCharm()
+document.addEventListener("pointerup", (event) => {
+  if (draggedCharmIndex === null) return;
+
+  const target = document
+    .elementFromPoint(event.clientX, event.clientY)
+    ?.closest(".preview-link");
+
+  if (target) {
+    const targetIndex = Number(target.dataset.index);
+
+    if (draggedCharmIndex !== targetIndex) {
+      reorderCharm(draggedCharmIndex, targetIndex);
+    }
+  }
+
+  draggedCharmIndex = null;
+});
 
 function renderPreview() {
   const preview = document.getElementById("preview");
@@ -397,58 +411,13 @@ function renderPreview() {
     preview.innerHTML = '<div class="preview-link" style="display:grid;place-items:center;color:#aaa;font-size:24px">+</div>';
   } else {
     selected.forEach((charm, index) => {
-      if (index) {
-        const join = document.createElement("span");
-        join.className = "join";
-        preview.appendChild(join);
-      }
       const frame = document.createElement("div");
 frame.className = "preview-link";
-frame.draggable = true;
+frame.dataset.index = index;
+frame.style.touchAction = "none";
 
-// Start dragging this charm
-frame.addEventListener("dragstart", function(event) {
+frame.addEventListener("pointerdown", () => {
   draggedCharmIndex = index;
-
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("text/plain", String(index));
-
-  frame.classList.add("dragging");
-});
-
-// Allow another charm to be dropped here
-frame.addEventListener("dragover", function(event) {
-  event.preventDefault();
-
-  event.dataTransfer.dropEffect = "move";
-  frame.classList.add("drag-over");
-});
-
-// Remove the highlight when dragging away
-frame.addEventListener("dragleave", function() {
-  frame.classList.remove("drag-over");
-});
-
-// Move the dragged charm into this position
-frame.addEventListener("drop", function(event) {
-  event.preventDefault();
-
-  const fromIndex = Number(
-    event.dataTransfer.getData("text/plain")
-  );
-
-  frame.classList.remove("drag-over");
-
-  reorderCharm(fromIndex, index);
-});
-
-// Clean up after dragging
-frame.addEventListener("dragend", function() {
-  draggedCharmIndex = null;
-
-  document.querySelectorAll(".preview-link").forEach(link => {
-    link.classList.remove("dragging", "drag-over");
-  });
 });
       const img = document.createElement("img");
       img.src = charm.image;
