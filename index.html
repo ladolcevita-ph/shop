@@ -387,6 +387,7 @@ function reorderCharm(fromIndex, toIndex) {
 
 // This listener must be outside reorderCharm()
 document.addEventListener("pointerup", (event) => {
+  if (event.pointerType === "mouse") return;
   if (draggedCharmIndex === null) return;
 
   const target = document
@@ -414,17 +415,58 @@ function renderPreview() {
       const frame = document.createElement("div");
 frame.className = "preview-link";
 frame.dataset.index = index;
+frame.draggable = true;
 frame.style.touchAction = "none";
 
-frame.addEventListener("pointerdown", () => {
+// Touchscreen: record which charm the customer presses
+frame.addEventListener("pointerdown", (event) => {
+  if (event.pointerType !== "mouse") {
+    draggedCharmIndex = index;
+  }
+});
+
+// Desktop: start native drag-and-drop
+frame.addEventListener("dragstart", (event) => {
   draggedCharmIndex = index;
+  event.dataTransfer.setData("text/plain", String(index));
+  event.dataTransfer.effectAllowed = "move";
+  frame.classList.add("dragging");
+});
+
+// Desktop: allow dropping onto another charm
+frame.addEventListener("dragover", (event) => {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+  frame.classList.add("drag-over");
+});
+
+frame.addEventListener("dragleave", () => {
+  frame.classList.remove("drag-over");
+});
+
+// Desktop: reorder when dropped
+frame.addEventListener("drop", (event) => {
+  event.preventDefault();
+
+  const fromIndex = Number(event.dataTransfer.getData("text/plain"));
+  frame.classList.remove("drag-over");
+
+  reorderCharm(fromIndex, index);
+});
+
+// Clean up after desktop dragging
+frame.addEventListener("dragend", () => {
+  draggedCharmIndex = null;
+
+  document.querySelectorAll(".preview-link").forEach((link) => {
+    link.classList.remove("dragging", "drag-over");
+  });
 });
       const img = document.createElement("img");
       img.src = charm.image;
       img.alt = charm.name;
       frame.appendChild(img);
 
-      // Add a remove button to this individual link
       const removeBtn = document.createElement("button");
       removeBtn.className = "preview-remove";
       removeBtn.type = "button";
@@ -437,7 +479,9 @@ frame.addEventListener("pointerdown", () => {
       preview.appendChild(frame);
     });
   }
-  document.getElementById("count").textContent = `${selected.length} of ${MAX_CHARMS} charms selected`;
+
+  document.getElementById("count").textContent =
+    `${selected.length} of ${MAX_CHARMS} charms selected`;
 }
 
 function renderSelected() {
