@@ -176,7 +176,31 @@ select { width:100%; max-width:360px; border:1px solid var(--line); padding:12px
   text-align: center;
   line-height: 1.7;
 }
-</style>
+/* Group charm catalog by style */
+#catalog {
+  display: block;
+}
+
+.charm-style-group {
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.charm-style-heading {
+  text-align: left;
+  margin: 0 0 12px;
+}
+
+.charm-style-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.charm-style-grid .product {
+  min-width: 0;
+}</style>
 </head>
 <body>
 <header>
@@ -325,21 +349,48 @@ function renderCatalog() {
     (selectedPrice === "all" || charm.price === Number(selectedPrice))
   );
 
-  document.getElementById("catalog").innerHTML = filteredCharms.length
-    ? filteredCharms.map(charm => `
-      <article class="product">
-        <img
-          class="product-photo"
-          src="${charm.image}"
-          alt="${charm.name}"
-          title="Add ${charm.name}"
-          loading="lazy"
-          onclick="addCharm(${charm.id})"
-        >
-        <p class="product-price">₱${charm.price.toLocaleString("en-PH")}</p>
-      </article>
-    `).join("")
-    : '<p class="muted">No charms match these filters.</p>';
+  if (!filteredCharms.length) {
+    document.getElementById("catalog").innerHTML =
+      '<p class="muted">No charms match these filters.</p>';
+    return;
+  }
+
+  // Group the filtered charms by style
+  const groupedCharms = filteredCharms.reduce((groups, charm) => {
+    if (!groups[charm.style]) {
+      groups[charm.style] = [];
+    }
+
+    groups[charm.style].push(charm);
+    return groups;
+  }, {});
+
+  // Display each style heading, followed by its charms
+  document.getElementById("catalog").innerHTML = Object.entries(groupedCharms)
+    .map(([style, styleCharms]) => `
+      <section class="charm-style-group">
+        <h3 class="charm-style-heading">${style}</h3>
+
+        <div class="charm-style-grid">
+          ${styleCharms.map(charm => `
+            <article class="product">
+              <img
+                class="product-photo"
+                src="${charm.image}"
+                alt="${charm.name}"
+                title="Add ${charm.name}"
+                loading="lazy"
+                onclick="addCharm(${charm.id})"
+              >
+              <p class="product-price">
+                ₱${charm.price.toLocaleString("en-PH")}
+              </p>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `)
+    .join("");
 }
 
 function addCharm(id) {
